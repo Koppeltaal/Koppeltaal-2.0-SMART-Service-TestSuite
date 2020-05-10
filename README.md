@@ -24,4 +24,4 @@ docker build . -t hti_testsuite && docker run --rm -name -p 8080:8080  hti_tests
 ## Using the software
 
 Navigate to the url [http://localhost:8080](http://localhost:8080) to open the portal side of the 
-test suite. This   
+test suite.    
