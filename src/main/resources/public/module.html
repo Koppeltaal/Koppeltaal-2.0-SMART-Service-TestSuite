@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en">
+<head>
+    <title>GIDS Open Standaarden TEST Module</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h1>GIDS Open Standaarden TEST Module</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6">
+            <div class="row">
+                <div class="col s12">
+                    <h4>The token</h4>
+                    <p>The token is the data that is shared in the launch. This consists of a JWT token.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="token" class="materialize-textarea textarea" name="token"
+                              style="font-family: monospace;"></textarea>
+                    <label for="token">Token</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <h4>The public key</h4>
+                    <p>The public key is distributed by the portal and configured at the module. The public key is used to <strong>validate</strong> the message.</p>
+                    <p>Please note that this tool attempts to fetch the public key by the JWKS protocol. The kid in the header is used to identify the key, the domain from the Issuer (iss) is used to fetch the key on the
+                    <b>.well-known/jwks.json</b> path.</p>
+                    <p>This tool has attempted to retrieve the key from <a href="#" class="jwksUrl"></a>, if this has failed, you should paste the key below to validate the message.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                <textarea id="publicKey" class="materialize-textarea textarea" name="publicKey"
+                          style="font-family: monospace;"></textarea>
+                    <label for="publicKey">Public key</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <select name="algorithm" id="algorithm">
+                        <option value="">[please select]</option>
+                        <option value="RS256">RS256</option>
+                        <option value="RS384">RS384</option>
+                        <option value="RS512">RS512</option>
+                        <option value="ES256">ES256</option>
+                        <option value="ES384">ES384</option>
+                        <option value="ES512">ES512</option>
+                    </select>
+                    <label for="algorithm">Algorithm</label>
+                </div>
+
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="row">
+                <div class="row">
+                    <div class="col s12">
+                        <h4>Message</h4>
+                        <p>The message consists of a header and payload. The header contains details about the message, the payload contains the data being shared.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <div class="card-panel">
+                        <label>Header</label>
+                        <pre class="header">
+
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <div class="card-panel">
+                        <label>Payload</label>
+                        <pre class="payload">
+
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="row">
+                <div class="col s12">
+                    <h4>Validation</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="row">
+                <div class="col s3">
+                    <div class="card-panel green-text lighten-2-text validation correct hide">
+                        <p>The token is valid</p>
+                    </div>
+                    <div class="card-panel red-text validation error hide">
+                        <p>The token is invalid</p>
+                        <p class="message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="row">
+                <div class="col s12">
+                    <button class="btn waves-effect waves-light check" type="button" name="check">Validate
+                        <i class="material-icons right">check</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.5.0.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="js/form_cookie.js"></script>
+<script type="text/javascript">
+  const pretty = function (json) {
+    if (typeof json === 'string' || json instanceof String) {
+      return JSON.stringify(JSON.parse(json), null, 2);
+    }
+    return '';
+  };
+  $(document).ready(function () {
+    $.ajaxSetup({ cache: false });
+    const refreshFormLayout = function () {
+      $('select').formSelect();
+      $('textarea').each(function () {
+        let val = $(this).val();
+        if (val) {
+          M.textareaAutoResize($(this));
+          let id = $(this).attr('id');
+          $('label[for="' + id + '"]').addClass('active');
+        }
+      })
+    };
+    const validateToken = function () {
+      const token = $(':input[name="token"]').val();
+      const publicKey = $(':input[name="publicKey"]').val();
+      const algorithm = $(':input[name="algorithm"]').val();
+      const data = {token: token, publicKey: publicKey, algorithm: algorithm}
+      $.ajax({
+        dataType: "json",
+        contentType: "application/json",
+        url: 'module_validate',
+        data: JSON.stringify(data),
+        type: 'POST',
+        success: function (data) {
+          const error = data['error'];
+          if (error) {
+            $('#reason').text(error);
+            $('.validation').addClass('hide');
+            $('.validation.error').removeClass('hide');
+          } else {
+            $('#reason').text('');
+            $('.validation').addClass('hide');
+            $('.validation.correct').removeClass('hide');
+          }
+          $('pre.header').text(pretty(data.header));
+          $('pre.payload').text(pretty(data['payload']));
+          $('p.message').text(data.error);
+          $('a.jwksUrl').text(data['jwksUrl']).attr('href', data['jwksUrl']);
+          $(':input[name="publicKey"]').val(data['publicKey']);
+          $(':input[name="algorithm"]').val(data['algorithm']);
+          refreshFormLayout();
+        }
+      });
+      return false;
+    };
+
+    // noinspection JSCheckFunctionSignatures
+    $('button.check').click(validateToken);
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const token = searchParams.get('token');
+    $(':input[name="token"]').val(token);
+    validateToken();
+  });
+</script>
+</body>
+</html>

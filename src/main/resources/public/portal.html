@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GIDS Open Standaarden TEST Portal</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h1>GIDS Open Standaarden TEST Portal</h1>
+        </div>
+    </div>
+    <div class="row">
+        <form name="hti_form">
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s12">
+                        <h2>FHIR Task</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="Task identifier" name="task_id" id="task_id" type="text" class="identifier">
+                        <label for="task_id">Task identifier</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="Activity identifier" name="activity_id" id="activity_id" type="text"
+                               class="identifier">
+                        <label for="activity_id">Activity identifier</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select name="user_type" id="user_type">
+                            <option value="-">-- Select a type --</option>
+                            <option value="Person">Person</option>
+                            <option value="Patient">Patient</option>
+                            <option value="Practitioner">Practitioner</option>
+                            <option value="RelatedPerson">RelatedPerson</option>
+                            <option value="Organization">Organization</option>
+                        </select>
+                        <label for="user_type">For type</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Activity identifier" name="user_id" id="user_id" type="text"
+                               class="identifier">
+                        <label for="user_id">For identifier</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select name="intent" id="intent">
+                            <option value="-">-- Select an intent --</option>
+                            <option value="proposal">Proposal</option>
+                            <option value="plan">Plan</option>
+                            <option value="original-order">Original Order</option>
+                            <option value="reflex-order">Reflex Order</option>
+                            <option value="filler-order">Filler Order</option>
+                            <option value="instance-order">Instance Order</option>
+                            <option value="option">Option</option>
+                        </select>
+                        <label for="intent">Intent</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select name="status" id="status">
+                            <option value="-">-- Select a status --</option>
+                            <option value="draft">Draft</option>
+                            <option value="requested">Requested</option>
+                            <option value="received">Received</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="ready">Ready</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="on-hold">On Hold</option>
+                            <option value="failed">Failed</option>
+                            <option value="completed">Completed</option>
+                            <option value="entered-in-error">Entered in Error</option>
+                        </select>
+                        <label for="status">Status</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s12">
+                        <h2>JWT Message</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="https://module.example.com" name="aud" id="aud" type="text" class="">
+                        <label for="aud">Audience (aud)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="https://portal.example.com" name="iss" id="iss" type="text" class="">
+                        <label for="iss">Issuer (iss)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <h2>Request properties</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="Launch url" name="launch_url" id="launch_url" type="text"
+                               class="identifier">
+                        <label for="launch_url">Launch url</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+                            <h2>Public key</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="public_key" style="font-family: monospace; word-break: break-all;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="row">
+                        <div class="col s6">
+                            <button class="btn waves-effect waves-light inspect" type="button" name="action">Inspect
+                                message
+                                <i class="material-icons right">message</i>
+                            </button>
+                            <button class="btn waves-effect waves-light" type="reset" name="action">Reset
+                                <i class="material-icons right">autorenew</i>
+                            </button>
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-3.5.0.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="js/form_cookie.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $.ajaxSetup({cache: false});
+    let refreshFormLayout = function () {
+      // noinspection JSUnresolvedFunction
+      $('select').formSelect();
+      $('textarea').each(function () {
+        let val = $(this).val();
+        if (val) {
+          M.textareaAutoResize($(this));
+          let id = $(this).attr('id');
+          $('label[for="' + id + '"]').addClass('active');
+        }
+      })
+      //
+    };
+    let resetForm = function () {
+      $.getJSON('portal_launch', function (data) {
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            // WARN: Make sure to call the formSelect() after any update.
+            $(':input[name="' + key + '"]').val(data[key]);
+          }
+        }
+        refreshFormLayout();
+        form_cookie.saveCookie();
+      });
+    };
+
+    let loadPublicKey = function () {
+      fetch('public_key.txt')
+        .then(function (response) {
+          response.text().then(function (text) {
+            $('div.public_key').text(text);
+            done();
+          });
+        });
+    };
+
+
+    let post_form = function (success) {
+      const data = JSON.stringify(form_utils.serializeForm($('form[name="hti_form"]')));
+      $.ajax({
+        type: 'POST',
+        url: 'portal_launch',
+        data: data,
+        success: success,
+        contentType: "application/json",
+        dataType: 'json'
+      });
+    };
+    // noinspection JSCheckFunctionSignatures
+    $('button.inspect').click(function () {
+      form_cookie.saveCookie();
+      post_form(function (data) {
+        let token = data.token;
+        let win = window.open('https://jwt.io?token=' + token, '_blank');
+        win.focus();
+      });
+      return false;
+    });
+    // noinspection JSCheckFunctionSignatures
+    $('button[type="reset"]').click(function (evt) {
+      evt.preventDefault();
+      resetForm();
+
+    });
+    $('form[name="hti_form"]').submit(function () {
+      form_cookie.saveCookie();
+      post_form(function (data) {
+        let isRedirect = data.redirect;
+        let url = data.url;
+        let token = data.token;
+        if (isRedirect) {
+          document.location = url + '?token=' + token;
+        } else {
+          let $form = $('<form method="post">');
+          $form.attr('action', url);
+          let $input = $('<input name="token" type="hidden">');
+          $input.val(token);
+          $form.append($input);
+          $('body').append($form);
+          $form.submit();
+        }
+      });
+      return false;
+    });
+
+    if (!form_cookie.restoreCookie()) {
+      resetForm();
+    } else {
+      refreshFormLayout();
+    }
+    loadPublicKey();
+  });
+</script>
+</body>
+</html>
