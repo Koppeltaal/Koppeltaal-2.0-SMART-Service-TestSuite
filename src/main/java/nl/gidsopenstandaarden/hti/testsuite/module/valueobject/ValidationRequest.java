@@ -4,17 +4,8 @@ package nl.gidsopenstandaarden.hti.testsuite.module.valueobject;
  *
  */
 public class ValidationRequest {
-	String token;
-	String publicKey;
-	String algorithm;
-
-	public String getAlgorithm() {
-		return algorithm;
-	}
-
-	public void setAlgorithm(String algorithm) {
-		this.algorithm = algorithm;
-	}
+	private String token;
+	private String publicKey;
 
 	public String getPublicKey() {
 		return publicKey;
