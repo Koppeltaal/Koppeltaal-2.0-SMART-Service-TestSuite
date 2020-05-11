@@ -6,9 +6,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/hti_testuite.css" media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 </head>
 
 <body>
@@ -24,6 +26,39 @@
                 <div class="row">
                     <div class="col s12">
                         <h2>FHIR Task</h2>
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header">
+                                    <i class="material-icons iconadd">add_circle_outline</i>
+                                    <i class="material-icons iconremove">remove_circle_outline</i>
+                                    </div>
+                                <div class="collapsible-body">
+                                    <p>The task object in HTI standard makes use of a subset of the <a href="https://www.hl7.org/fhir/STU3/task.html" target="_blank">FHIR Task</a> object.
+                                                                The object is used in the launch as requests <a href="https://www.hl7.org/fhir/STU3/workflow.html">workflow pattern</a>.</p>
+                                    <p>Please keep in mind that the HTI launch forbids any personal information about the users to be exchanged in the launch,
+                                        eventough the <a href="https://www.hl7.org/fhir/STU3/task.html" target="_blank">FHIR Task</a> does allow details of the user to be exchanged. </p>
+                                    <dl>
+                                        <dt>Task identifier (<b>id</b>)</dt>
+                                        <dd>The unique identifier of the task, needs to be pesistent over time.</dd>
+                                        <dt>Activity identifier (<b>definitionReference.reference</b>)</dt>
+                                        <dd>The reference to the activity associated with the task.</dd>
+                                        <dt>For type (<b>for.reference</b>)</dt>
+                                        <dd>The type part of the user reference, for example <b>Practitioner</b>/xyz.</dd>
+                                        <dt>For identifier(<b>for.reference</b>)</dt>
+                                        <dd>Identity part of of the user reference, for example Practitioner/<b>xyz</b>.
+                                            Must be persistent over time and may not refer in any way to personal details of the user, such as e-mail or any other identification number.</dd>
+                                        <dt>Intent(<b>intent</b>)</dt>
+                                        <dd>The required field intent, must be one of <a href="https://www.hl7.org/fhir/STU3/valueset-request-intent.html" target="_blank">Value set request-intent</a>.
+                                            If unknown, use the <b>plan</b> value.</dd>
+                                        <dt>Status(<b>status</b>)</dt>
+                                        <dd>The required field status, , must be one of <a href="https://www.hl7.org/fhir/STU3/valueset-task-status.html" target="_blank">Value set task-status</a>.
+                                            If unknown, use the <b>requested</b> value.</dd>
+                                    </dl>
+                                </div>
+                            </li>
+                        </ul>
+
+
                     </div>
                 </div>
                 <div class="row">
@@ -95,6 +130,30 @@
                 <div class="row">
                     <div class="col s12">
                         <h2>JWT Message</h2>
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header">
+                                    <i class="material-icons iconadd">add_circle_outline</i>
+                                    <i class="material-icons iconremove">remove_circle_outline</i></div>
+                                <div class="collapsible-body">
+                                    <p>The JWT message contains the FHIR Task and the JWT fields to ensure the flexible and secure exchange. The JWT message has the following fields:</p>
+                                    <dt>The FHIR task (<b>task</b>)</dt>
+                                    <dd>The FHIR task as nested field. This field is populated by the values from the FHIR Task section.</dd>
+                                    <dt>Audience (<b>aud</b>)</dt>
+                                    <dd>The "aud" (Audience) field contains the value of the intended receiver of the message, in this case the module.</dd>
+                                    <dt>Issuer (<b>iss</b>)</dt>
+                                    <dd>The Issuer (<b>iss</b>) field contains the value of the sender of the message, in this case this portal.</dd>
+                                    <dt>Issed at (<b>iat</b>)*</dt>
+                                    <dd>The "iat" (issued at) claim identifies the time at which the JWT was issued. </dd>
+                                    <dt>Expiration Time (<b>exp</b>)*</dt>
+                                    <dd>The "exp" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.</dd>
+                                    <dt>JWT ID (<b>jti</b>)*</dt>
+                                    <dd>The "jti" (JWT ID) claim provides a unique identifier for the JWT.</dd>
+
+                                    <p>* fields are populated autmatically.</p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="row">
@@ -112,6 +171,17 @@
                 <div class="row">
                     <div class="col s12">
                         <h2>Request properties</h2>
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header">
+                                    <i class="material-icons iconadd">add_circle_outline</i>
+                                    <i class="material-icons iconremove">remove_circle_outline</i></div>
+                                <div class="collapsible-body">
+                                    <p>The launch URL is the endpoint of the module that receives the incoming request
+                                    as a form post, with the JWT token encoded in the form post in the <b>token</b> field.</p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="row">
@@ -128,6 +198,19 @@
                     <div class="row">
                         <div class="col s12">
                             <h2>Public key</h2>
+                            <ul class="collapsible">
+                                <li>
+                                    <div class="collapsible-header">
+                                        <i class="material-icons iconadd">add_circle_outline</i>
+                                        <i class="material-icons iconremove">remove_circle_outline</i></div>
+                                    <div class="collapsible-body">
+                                        <p>The JWT message is signed by a private key as part of a public / private key
+                                            combination, the public key of that public private key combination
+                                            is available here. The public key is required to validate the JWT
+                                            message.</p>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="row">
@@ -142,7 +225,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="row">
-                        <div class="col s6">
+                        <div class="col s12">
                             <button class="btn waves-effect waves-light inspect" type="button" name="action">Inspect
                                 message
                                 <i class="material-icons right">message</i>
@@ -170,6 +253,7 @@
     let refreshFormLayout = function () {
       // noinspection JSUnresolvedFunction
       $('select').formSelect();
+      $('.collapsible').collapsible();
       $('textarea').each(function () {
         let val = $(this).val();
         if (val) {
