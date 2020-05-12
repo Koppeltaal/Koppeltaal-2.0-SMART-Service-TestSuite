@@ -18,7 +18,7 @@ mvn clean spring-boot:run
 ### Running using docker
 
 ```shell script
-docker build . -t hti_testsuite && docker run --rm -name hti_testsuite -p 8080:8080 hti_testsuite
+docker build . -t hti_testsuite && docker run --name hti_testsuite -p 8080:8080 hti_testsuite
 ```
 
 ## Using the software
