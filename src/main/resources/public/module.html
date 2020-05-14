@@ -147,8 +147,11 @@
         <div class="col s12">
             <div class="row">
                 <div class="col s12">
-                    <button class="btn waves-effect waves-light check amber lighten-2" type="button" name="check">Validate
-                        <i class="material-icons right">check</i>
+                    <button class="btn waves-effect waves-light check amber lighten-2 tooltipped"
+                            type="button"
+                            data-position="top"
+                            data-tooltip="Validate this JWT token with the public key"
+                            name="check">Validate <i class="material-icons right">check</i>
                     </button>
                 </div>
             </div>
@@ -171,6 +174,7 @@
     const refreshFormLayout = function () {
       $('select').formSelect();
       $('.collapsible').collapsible();
+      $('.tooltipped').tooltip();
       $('textarea').each(function () {
         let val = $(this).val();
         if (val) {

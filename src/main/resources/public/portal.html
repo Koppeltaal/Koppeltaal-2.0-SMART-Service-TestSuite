@@ -236,15 +236,23 @@
                 <div class="col s12">
                     <div class="row">
                         <div class="col s12">
-                            <button class="btn waves-effect waves-light inspect blue lighten-2" type="button" name="action">Inspect
-                                message
-                                <i class="material-icons right">message</i>
+                            <button class="btn waves-effect waves-light inspect blue lighten-2 tooltipped"
+                                    type="button"
+                                    data-position="top"
+                                    data-tooltip="Inspect the token at jwt.io"
+                                    name="action">Inspect message <i class="material-icons right">message</i>
                             </button>
-                            <button class="btn waves-effect waves-light red lighten-2" type="reset" name="action">Reset
-                                <i class="material-icons right">autorenew</i>
+                            <button class="btn waves-effect waves-light red lighten-2 tooltipped"
+                                    type="reset"
+                                    data-position="top"
+                                    data-tooltip="Reset the form and generate new identifiers"
+                                    name="action">Reset <i class="material-icons right">autorenew</i>
                             </button>
-                            <button class="btn waves-effect waves-light  green lighten-2" type="submit" name="action">Submit
-                                <i class="material-icons right">send</i>
+                            <button class="btn waves-effect waves-light green lighten-2 tooltipped"
+                                    data-position="top"
+                                    data-tooltip="Submit the form to the launch URL"
+                                    type="submit"
+                                    name="action">Submit <i class="material-icons right">send</i>
                             </button>
                         </div>
                     </div>
@@ -264,6 +272,7 @@
       // noinspection JSUnresolvedFunction
       $('select').formSelect();
       $('.collapsible').collapsible();
+      $('.tooltipped').tooltip();
       $('textarea').each(function () {
         let val = $(this).val();
         if (val) {
