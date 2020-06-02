@@ -47,7 +47,7 @@ public class HtiPortalConfiguration {
 	/**
 	 * JWT token timeout.
 	 */
-	private int jwtTimeoutInSeconds = 15 * 60; // 15 minutes
+	private int jwtTimeoutInSeconds = 5 * 60; // 5 minutes
 
 	public String getAud() {
 		return aud;
