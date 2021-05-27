@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-java -jar /gids-hti-testsuite.jar
+java -jar /smart-testsuite.jar

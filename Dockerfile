@@ -10,7 +10,7 @@ FROM openjdk:8u181-jre-alpine
 
 RUN apk update && apk add bash openssl
 
-COPY --from=build /target/gids-hti-testsuite.jar /gids-hti-testsuite.jar
+COPY --from=build /target/smart-testsuite.jar /smart-testsuite.jar
 
 ENV TZ="Europe/Amsterdam"
 

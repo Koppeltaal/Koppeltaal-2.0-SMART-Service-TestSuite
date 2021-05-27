@@ -1,0 +1,294 @@
+<!--
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  ~
+  ~ Copyright Headease B.V. (c) 2020.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Koppeltaal 2.0 SMART Backend Service Test Suite</title>
+    <link rel="icon" type="image/png" href="images/favicon.ico"/>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/smart_testsuite.css" media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h3><img src="images/Koppeltaal-logo.jpeg" class="gids_logo" alt="Koppeltaal 2.0"> SMART Test Suite</h3>
+        </div>
+    </div>
+    <div class="row">
+        <form name="smart-testsuite_form">
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s12">
+                        <h3>&#9312; The JWT Message</h3>
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header">
+                                    <i class="material-icons iconadd">info_outline</i>
+                                    <i class="material-icons iconremove">info</i></div>
+                                <div class="collapsible-body">
+                                    <p>The JWT message conforms the <a href="https://hl7.org/fhir/uv/bulkdata/authorization/index.html#obtaining-an-access-token">SMART Backend Service</a>.
+                                        These are the required fields:</p>
+
+                                    <dt>Audience (<b>aud</b>)</dt>
+                                    <dd>The "aud" (Audience) field contains the value of the intended receiver of the
+                                        message, in this case the URL where the access token shall be requested. The
+                                        test suite will send the request to this endpoint.
+                                    </dd>
+                                    <dt>Issuer (<b>iss</b>)</dt>
+                                    <dd>The Issuer (<b>iss</b>) field contains the client_id.
+                                    </dd><dt>Subject (<b>sub</b>)</dt>
+                                    <dd>The Subject (<b>sub</b>) field contains the client_id.
+                                    </dd>
+                                    <dt>Issed at (<b>iat</b>)*</dt>
+                                    <dd>The "iat" (issued at) claim identifies the time at which the JWT was issued.
+                                    </dd>
+                                    <dt>Expiration Time (<b>exp</b>)*</dt>
+                                    <dd>The "exp" (expiration time) claim identifies the expiration time on or after
+                                        which the JWT MUST NOT be accepted for processing.
+                                    </dd>
+                                    <dt>JWT ID (<b>jti</b>)*</dt>
+                                    <dd>The "jti" (JWT ID) claim provides a unique identifier for the JWT.</dd>
+
+                                    <p>* fields are populated automatically.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="https://module.example.com" name="aud" id="aud" type="text">
+                        <label for="aud">Audience (aud)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="9d264dea-04b2-4fc1-80e0-9479310854c2" name="iss" id="iss" type="text">
+                        <label for="iss">Issuer (iss)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="9d264dea-04b2-4fc1-80e0-9479310854c2" name="sub" id="sub" type="text">
+                        <label for="sub">Subject (sub)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s12">
+                        <h3>&#9313; The OAuth Client Assertion</h3>
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header">
+                                    <i class="material-icons iconadd">info_outline</i>
+                                    <i class="material-icons iconremove">info_outline</i>
+                                </div>
+                                <div class="collapsible-body">
+                                    <p>The OAuth Client  Assertion conforms to the <a href="https://hl7.org/fhir/uv/bulkdata/authorization/index.html#obtaining-an-access-token">SMART Backend Service</a>.
+                                        These are the required fields:</p>
+
+                                    <dt>scope</dt>
+                                    <dd>The OAuth scope for the requested access token.
+                                    </dd>
+                                    <dt>grant_type*</dt>
+                                    <dd>Always set to <i>client_credentials</i>
+                                    </dd>
+                                    <dt>client_assertion_type*</dt>
+                                    <dd>Always set to <i>urn:ietf:params:oauth:client-assertion-type:jwt-bearer</i>
+                                    <dt>client_assertion*</dt>
+                                    <dd>The signed JWT from step &#9312;
+                                    </dd>
+
+                                    <p>* fields are populated automatically.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="Scope" name="scope" id="scope" type="text"
+                               class="identifier">
+                        <label for="scope">Scope</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+                            <button class="btn waves-effect waves-light inspect blue lighten-2 tooltipped"
+                                    type="button"
+                                    data-position="top"
+                                    data-tooltip="Inspect the token at jwt.io"
+                                    name="action">Inspect JWT <i class="material-icons right">message</i>
+                            </button>
+                            <button class="btn waves-effect waves-light red lighten-2 tooltipped"
+                                    type="reset"
+                                    data-position="top"
+                                    data-tooltip="Reset the form and generate new identifiers"
+                                    name="action">Reset <i class="material-icons right">autorenew</i>
+                            </button>
+                            <button class="btn waves-effect waves-light green lighten-2 tooltipped"
+                                    data-position="top"
+                                    data-tooltip="Create Auth Request, shown in the debug step"
+                                    type="submit"
+                                    name="action">Create Auth Request <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="debug-request" class="row hiddendiv">
+        <form id="debug-request-form" method="post" target="_blank">
+            <div class="col s12">
+                <h3>&#9314; Debugger</h3>
+                <div class="row">
+                    <div class="col s12">
+                            <div class="input-field col s6">
+                                <input placeholder="Scope" id="url_result" type="text" class="disabled">
+                                <label for="scope_result">Authorization Server</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input placeholder="Scope" id="scope_result" name="scope" type="text" class="disabled">
+                                <label for="scope_result">Scope</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input placeholder="Grant Type" id="grant_type_result" name="grant_type" type="text" class="disabled">
+                                <label for="grant_type_result">Grant Type</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input placeholder="Client Assertion Type" id="client_assertion_type_result" name="client_assertion_type" type="text" class="disabled">
+                                <label for="client_assertion_type_result">Client Assertion Type</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input placeholder="Client Assertion" id="client_assertion_result" name="client_assertion" type="text" class="disabled">
+                                <label for="client_assertion_result">Client Assertion</label>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+                            <button class="btn waves-effect waves-light green lighten-2 tooltipped"
+                                    data-position="top"
+                                    data-tooltip="Perform the authorization request"
+                                    type="submit"
+                                    name="action">Submit <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-3.5.0.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="js/form_cookie.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $.ajaxSetup({cache: false});
+    let refreshFormLayout = function () {
+      // noinspection JSUnresolvedFunction
+      $('select').formSelect();
+      $('.collapsible').collapsible();
+      $('.tooltipped').tooltip();
+      $('textarea').each(function () {
+        let val = $(this).val();
+        if (val) {
+          M.textareaAutoResize($(this));
+          let id = $(this).attr('id');
+          $('label[for="' + id + '"]').addClass('active');
+        }
+      })
+      //
+    };
+    let resetForm = function () {
+      $.getJSON('launch', function (data) {
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            // WARN: Make sure to call the formSelect() after any update.
+            $(':input[name="' + key + '"]').val(data[key]);
+          }
+        }
+        refreshFormLayout();
+        form_cookie.saveCookie();
+      });
+    };
+
+    let post_form = function (success) {
+      const data = JSON.stringify(form_utils.serializeForm($('form[name="smart-testsuite_form"]')));
+      $.ajax({
+        type: 'POST',
+        url: 'launch',
+        data: data,
+        success: success,
+        contentType: "application/json",
+        dataType: 'json'
+      });
+    };
+    // noinspection JSCheckFunctionSignatures
+    $('button.inspect').click(function () {
+      form_cookie.saveCookie();
+      post_form(function (data) {
+        let token = data.clientAssertion;
+        let win = window.open('https://jwt.io?token=' + token, '_blank');
+        win.focus();
+      });
+      return false;
+    });
+    // noinspection JSCheckFunctionSignatures
+    $('button[type="reset"]').click(function (evt) {
+      evt.preventDefault();
+      resetForm();
+
+    });
+    $('form[name="smart-testsuite_form"]').submit(function () {
+      form_cookie.saveCookie();
+      post_form(function (data) {
+
+          $('div#debug-request').removeClass('hiddendiv')
+
+          const $form = $('#debug-request-form');
+
+          $form.attr('action', data.url)
+          $('input#url_result', $form).val(data.url)
+          $('input[name="scope"]', $form).val(data.scope)
+          $('input[name="grant_type"]', $form).val(data.grantType)
+          $('input[name="client_assertion_type"]', $form).val(data.clientAssertionType)
+          $('input[name="client_assertion"]', $form).val(data.clientAssertion)
+      });
+      return false;
+    });
+
+    if (!form_cookie.restoreCookie()) {
+      resetForm();
+    } else {
+      refreshFormLayout();
+    }
+  });
+</script>
+</body>
+</html>
