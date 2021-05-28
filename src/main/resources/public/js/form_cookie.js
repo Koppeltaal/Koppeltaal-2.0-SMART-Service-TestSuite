@@ -16,7 +16,7 @@ const form_cookie = {
   },
   restoreCookie: function () {
     let rv = false;
-    $('form').each(function () {
+    $('form#smart-testsuite_form').each(function () {
       const x = $(this).attr('name');
       const str = $.cookie(x) || '';
       const data = str.split('&');

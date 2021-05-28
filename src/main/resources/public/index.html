@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="row">
-        <form name="smart-testsuite_form">
+        <form id="smart-testsuite_form" name="smart-testsuite_form">
             <div class="col s6">
                 <div class="row">
                     <div class="col s12">
@@ -39,9 +39,10 @@
                             <li>
                                 <div class="collapsible-header">
                                     <i class="material-icons iconadd">info_outline</i>
-                                    <i class="material-icons iconremove">info</i></div>
+                                    <i class="material-icons iconremove">info</i>
+                                </div>
                                 <div class="collapsible-body">
-                                    <p>The JWT message conforms the <a href="https://hl7.org/fhir/uv/bulkdata/authorization/index.html#obtaining-an-access-token">SMART Backend Service</a>.
+                                    <p>The JWT message conforms the <a target="_blank" href="https://hl7.org/fhir/uv/bulkdata/authorization/index.html#obtaining-an-access-token">SMART Backend Service</a>.
                                         These are the required fields:</p>
 
                                     <dt>Audience (<b>aud</b>)</dt>
@@ -100,7 +101,7 @@
                                     <i class="material-icons iconremove">info_outline</i>
                                 </div>
                                 <div class="collapsible-body">
-                                    <p>The OAuth Client  Assertion conforms to the <a href="https://hl7.org/fhir/uv/bulkdata/authorization/index.html#obtaining-an-access-token">SMART Backend Service</a>.
+                                    <p>The OAuth Client Assertion conforms to the <a target="_blank" href="https://hl7.org/fhir/uv/bulkdata/authorization/index.html#obtaining-an-access-token">SMART Backend Service</a>.
                                         These are the required fields:</p>
 
                                     <dt>scope</dt>
@@ -138,12 +139,6 @@
                                     data-position="top"
                                     data-tooltip="Inspect the token at jwt.io"
                                     name="action">Inspect JWT <i class="material-icons right">message</i>
-                            </button>
-                            <button class="btn waves-effect waves-light red lighten-2 tooltipped"
-                                    type="reset"
-                                    data-position="top"
-                                    data-tooltip="Reset the form and generate new identifiers"
-                                    name="action">Reset <i class="material-icons right">autorenew</i>
                             </button>
                             <button class="btn waves-effect waves-light green lighten-2 tooltipped"
                                     data-position="top"
@@ -210,33 +205,10 @@
 <script type="text/javascript">
   $(document).ready(function () {
     $.ajaxSetup({cache: false});
-    let refreshFormLayout = function () {
-      // noinspection JSUnresolvedFunction
-      $('select').formSelect();
-      $('.collapsible').collapsible();
-      $('.tooltipped').tooltip();
-      $('textarea').each(function () {
-        let val = $(this).val();
-        if (val) {
-          M.textareaAutoResize($(this));
-          let id = $(this).attr('id');
-          $('label[for="' + id + '"]').addClass('active');
-        }
-      })
-      //
-    };
-    let resetForm = function () {
-      $.getJSON('launch', function (data) {
-        for (const key in data) {
-          if (data.hasOwnProperty(key)) {
-            // WARN: Make sure to call the formSelect() after any update.
-            $(':input[name="' + key + '"]').val(data[key]);
-          }
-        }
-        refreshFormLayout();
-        form_cookie.saveCookie();
-      });
-    };
+
+    $('select').formSelect();
+    $('.collapsible').collapsible();
+    $('.tooltipped').tooltip();
 
     let post_form = function (success) {
       const data = JSON.stringify(form_utils.serializeForm($('form[name="smart-testsuite_form"]')));
@@ -283,11 +255,8 @@
       return false;
     });
 
-    if (!form_cookie.restoreCookie()) {
-      resetForm();
-    } else {
-      refreshFormLayout();
-    }
+    !form_cookie.restoreCookie()
+
   });
 </script>
 </body>
