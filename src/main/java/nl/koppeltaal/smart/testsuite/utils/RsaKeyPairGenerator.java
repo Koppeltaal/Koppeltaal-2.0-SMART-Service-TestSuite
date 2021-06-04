@@ -9,6 +9,7 @@
 package nl.koppeltaal.smart.testsuite.utils;
 
 import java.security.KeyPair;
+import nl.koppeltaal.springbootstarterjwks.util.KeyUtils;
 
 public class RsaKeyPairGenerator {
 
