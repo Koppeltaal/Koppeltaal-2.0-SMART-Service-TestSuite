@@ -42,7 +42,7 @@
     <dependency>
       <groupId>org.bitbucket.b_c</groupId>
       <artifactId>jose4j</artifactId>
-      <version>0.7.0</version>
+      <version>0.7.7</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -52,22 +52,15 @@
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
     </dependency>
+    <dependency>
+      <groupId>nl.koppeltaal</groupId>
+      <artifactId>spring-boot-starter-jwks</artifactId>
+      <version>1.0.0</version>
+    </dependency>
     <!-- Test dependencies, please mind that we prefer to use different JWT libraries for testing. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.auth0</groupId>
-      <artifactId>java-jwt</artifactId>
-      <version>3.9.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.nimbusds</groupId>
-      <artifactId>nimbus-jose-jwt</artifactId>
-      <version>8.16</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -93,4 +86,17 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/Koppeltaal/*</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>

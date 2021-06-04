@@ -8,12 +8,12 @@
 
 package nl.koppeltaal.smart.testsuite.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.koppeltaal.smart.testsuite.configuration.SmartTestSuiteConfiguration;
-import nl.koppeltaal.smart.testsuite.utils.KeyUtils;
+import java.security.GeneralSecurityException;
+import java.security.KeyPair;
+import java.util.UUID;
 import nl.koppeltaal.smart.testsuite.valueobject.SmartTestSuiteLaunchRequest;
-import nl.koppeltaal.smart.testsuite.valueobject.Task;
-import org.jose4j.jwe.JsonWebEncryption;
+import nl.koppeltaal.springbootstarterjwks.config.JwksConfiguration;
+import nl.koppeltaal.springbootstarterjwks.util.KeyUtils;
 import org.jose4j.jwk.PublicJsonWebKey;
 import org.jose4j.jwk.Use;
 import org.jose4j.jws.AlgorithmIdentifiers;
@@ -23,31 +23,16 @@ import org.jose4j.jwt.NumericDate;
 import org.jose4j.lang.JoseException;
 import org.springframework.stereotype.Service;
 
-import java.security.GeneralSecurityException;
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Map;
-import java.util.UUID;
-
 /**
  *
  */
 @Service
 public class SmartTestSuiteService {
 
-  private final SmartTestSuiteConfiguration smartTestSuiteConfiguration;
+  private final JwksConfiguration jwksConfiguration;
 
-  private final ObjectMapper objectMapper;
-  private final HostIdentityService hostIdentityService;
-
-  public SmartTestSuiteService(
-      SmartTestSuiteConfiguration smartTestSuiteConfiguration,
-      ObjectMapper objectMapper,
-      HostIdentityService hostIdentityService) {
-    this.smartTestSuiteConfiguration = smartTestSuiteConfiguration;
-    this.objectMapper = objectMapper;
-    this.hostIdentityService = hostIdentityService;
+  public SmartTestSuiteService(JwksConfiguration jwksConfiguration) {
+    this.jwksConfiguration = jwksConfiguration;
   }
 
   public String getLaunchToken(SmartTestSuiteLaunchRequest request) throws GeneralSecurityException {
@@ -58,7 +43,7 @@ public class SmartTestSuiteService {
       claims.setSubject(request.getSub());
       claims.setIssuedAt(NumericDate.now());
       claims.setExpirationTime(NumericDate.fromMilliseconds(System.currentTimeMillis()
-          + smartTestSuiteConfiguration.getJwtTimeoutInSeconds() * 1000L));
+          + jwksConfiguration.getJwtTimeoutInSeconds() * 1000L));
       claims.setJwtId(UUID.randomUUID().toString());
 
       JsonWebSignature jws = new JsonWebSignature();
@@ -66,11 +51,12 @@ public class SmartTestSuiteService {
       // The payload of the JWS is JSON content of the JWT Claims
       jws.setPayload(claims.toJson());
 
-      KeyPair rsaKeyPair = KeyUtils.getRsaKeyPair(smartTestSuiteConfiguration.getSigningPublicKey(), smartTestSuiteConfiguration.getSigningPrivateKey());
+      KeyPair rsaKeyPair = KeyUtils
+          .getRsaKeyPair(jwksConfiguration.getSigningPublicKey(), jwksConfiguration.getSigningPrivateKey());
       PublicJsonWebKey jwk = PublicJsonWebKey.Factory.newPublicJwk(rsaKeyPair.getPublic());
       jwk.setPrivateKey(rsaKeyPair.getPrivate());
       jwk.setUse(Use.SIGNATURE);
-      jwk.setAlgorithm(smartTestSuiteConfiguration.getSigningAlgorithm());
+      jwk.setAlgorithm(jwksConfiguration.getSigningAlgorithm());
 
       // The JWT is signed using the private key
       jws.setKey(jwk.getPrivateKey());
