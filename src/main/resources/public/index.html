@@ -20,6 +20,13 @@
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        textarea {
+            height: auto;
+            padding: 20px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body>
@@ -109,7 +116,7 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <!-- Adding class="materialize-textarea" somehow deletes the debug dom nodes -->
-                                        <textarea id="privateKey" name="privateKey" rows="25" style="height: auto"></textarea>
+                                        <textarea id="privateKey" name="privateKey" rows="25"></textarea>
                                         <label for="privateKey">Private Key</label>
                                     </div>
                                 </div>
@@ -187,7 +194,7 @@
         </form>
     </div>
     <div id="results" class="row hiddendiv">
-        <textarea rows="13" id="access-token-result" style="height: auto"></textarea>
+        <textarea rows="13" id="access-token-result"></textarea>
     </div>
     <div id="debug-request" class="row hiddendiv">
         <form id="debug-request-form" method="post" target="_blank">
