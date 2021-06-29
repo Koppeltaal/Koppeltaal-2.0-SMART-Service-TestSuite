@@ -168,17 +168,26 @@
                                     data-tooltip="Inspect the token at jwt.io"
                                     name="action">Inspect JWT <i class="material-icons right">message</i>
                             </button>
-                            <button class="btn waves-effect waves-light green lighten-2 tooltipped"
+                            <button id="debug-auth-request"
+                                    class="btn waves-effect waves-light amber lighten-2 tooltipped"
                                     data-position="top"
                                     data-tooltip="Create Auth Request, shown in the debug step"
-                                    type="submit"
-                                    name="action">Create Auth Request <i class="material-icons right">send</i>
+                                    name="action">Debug Auth Request <i class="material-icons right">bug_report</i>
+                            </button>
+                            <button id="get-access-token"
+                                    class="btn waves-effect waves-light green lighten-2 tooltipped"
+                                    data-position="top"
+                                    data-tooltip="Create Auth Request, shown in the debug step"
+                                    name="action">Get Access Token <i class="material-icons right">send</i>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
+    </div>
+    <div id="results" class="row hiddendiv">
+        <textarea rows="13" id="access-token-result" style="height: auto"></textarea>
     </div>
     <div id="debug-request" class="row hiddendiv">
         <form id="debug-request-form" method="post" target="_blank">
@@ -238,52 +247,68 @@
     $('.collapsible').collapsible();
     $('.tooltipped').tooltip();
 
-    let post_form = function (success) {
+    const post_form = function (isDebug, success) {
       const data = JSON.stringify(form_utils.serializeForm($('form[name="smart-testsuite_form"]')));
       $.ajax({
         type: 'POST',
-        url: 'launch',
+        url: isDebug ? 'launch/debug' : 'launch',
         data: data,
         success: success,
         contentType: "application/json",
         dataType: 'json'
       });
     };
+
     // noinspection JSCheckFunctionSignatures
     $('button.inspect').click(function () {
       form_cookie.saveCookie();
-      post_form(function (data) {
+      post_form(true, function (data) {
         let token = data.clientAssertion;
         let win = window.open('https://jwt.io?token=' + token, '_blank');
         win.focus();
       });
       return false;
     });
+
     // noinspection JSCheckFunctionSignatures
     $('button[type="reset"]').click(function (evt) {
       evt.preventDefault();
       resetForm();
-
-    });
-    $('form[name="smart-testsuite_form"]').submit(function () {
-      form_cookie.saveCookie();
-      post_form(function (data) {
-          $('div#debug-request').removeClass('hiddendiv')
-
-          const $form = $('#debug-request-form');
-
-          $form.attr('action', data.url)
-          $('input#url_result', $form).val(data.url)
-          $('input[name="scope"]', $form).val(data.scope)
-          $('input[name="grant_type"]', $form).val(data.grantType)
-          $('input[name="client_assertion_type"]', $form).val(data.clientAssertionType)
-          $('input[name="client_assertion"]', $form).val(data.clientAssertion)
-      });
-      return false;
     });
 
-    !form_cookie.restoreCookie()
-  });
+    $('button#debug-auth-request').click(function() {
+        form_cookie.saveCookie();
+        post_form(true, function (data) {
+            $('div#debug-request').removeClass('hiddendiv')
+            $('div#results').addClass('hiddendiv')
+
+            const $form = $('#debug-request-form');
+
+            $form.attr('action', data.url)
+            $('input#url_result', $form).val(data.url)
+            $('input[name="scope"]', $form).val(data.scope)
+            $('input[name="grant_type"]', $form).val(data.grantType)
+            $('input[name="client_assertion_type"]', $form).val(data.clientAssertionType)
+            $('input[name="client_assertion"]', $form).val(data.clientAssertion)
+        });
+        return false;
+    });
+
+    $('#get-access-token').click(function() {
+        form_cookie.saveCookie();
+        $('div#debug-request').addClass('hiddendiv')
+        $('div#results').removeClass('hiddendiv')
+
+        post_form(false, function (data) {
+            $('div#results textarea').val(
+                JSON.stringify(data, null, 2)
+            )
+        });
+        return false;
+    })
+
+  !form_cookie.restoreCookie()
+});
 </script>
 </body>
 </html>
