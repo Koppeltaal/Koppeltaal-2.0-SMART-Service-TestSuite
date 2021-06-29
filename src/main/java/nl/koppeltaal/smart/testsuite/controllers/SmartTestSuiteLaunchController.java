@@ -56,7 +56,7 @@ public class SmartTestSuiteLaunchController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String getAccessToken(@RequestBody SmartTestSuiteLaunchRequest launchRequest) throws GeneralSecurityException, JSONException {
+	public String getAccessToken(@RequestBody SmartTestSuiteLaunchRequest launchRequest) throws GeneralSecurityException {
 		LaunchData rv = new LaunchData(launchRequest, false);
 		rv.setClientAssertion(smartTestSuiteService.getLaunchToken(launchRequest));
 
