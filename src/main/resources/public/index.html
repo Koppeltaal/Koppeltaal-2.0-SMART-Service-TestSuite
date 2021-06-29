@@ -89,6 +89,34 @@
                         <label for="sub">Subject (sub)</label>
                     </div>
                 </div>
+                <div class="row">
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header">
+                                <i class="material-icons">vpn_key</i>
+                                Sign with Private Key (RS512) instead of JWKS
+                            </div>
+                            <div class="collapsible-body">
+                                <p>
+                                    By default, the request will be signed with JWKS. However,  it is
+                                    also possible to configure a public key as a SMART backend service.
+                                </p>
+                                <p>
+                                    Provide your private key below to sign the request with your private key.
+                                    The private key will be sent to the server, but won't be saved.
+                                </p>
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <!-- Adding class="materialize-textarea" somehow deletes the debug dom nodes -->
+                                        <textarea id="privateKey" name="privateKey" rows="25" style="height: auto"></textarea>
+                                        <label for="privateKey">Private Key</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="col s6">
                 <div class="row">
@@ -240,7 +268,6 @@
     $('form[name="smart-testsuite_form"]').submit(function () {
       form_cookie.saveCookie();
       post_form(function (data) {
-
           $('div#debug-request').removeClass('hiddendiv')
 
           const $form = $('#debug-request-form');
@@ -256,7 +283,6 @@
     });
 
     !form_cookie.restoreCookie()
-
   });
 </script>
 </body>

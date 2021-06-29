@@ -14,6 +14,7 @@ public class SmartTestSuiteLaunchRequest {
 	private String iss;
 	private String sub;
 	private String scope;
+	private String privateKey;
 
 	public String getAud() {
 		return aud;
@@ -45,5 +46,13 @@ public class SmartTestSuiteLaunchRequest {
 
 	public void setScope(String scope) {
 		this.scope = scope;
+	}
+
+	public String getPrivateKey() {
+		return privateKey;
+	}
+
+	public void setPrivateKey(String privateKey) {
+		this.privateKey = privateKey;
 	}
 }
