@@ -109,12 +109,15 @@ public class SmartTestSuiteService {
     }
   }
 
-  private PrivateKey getPrivateKey(String privateKeyContent)
-      throws NoSuchAlgorithmException, InvalidKeySpecException {
+  private PrivateKey getPrivateKey(String privateKeyContent) throws NoSuchAlgorithmException, InvalidKeySpecException {
     KeyFactory kf = KeyFactory.getInstance("RSA");
 
+    String cleanPrivateKey = privateKeyContent.replace("\r", "");
+    cleanPrivateKey = cleanPrivateKey.replace("\n", "");
+    cleanPrivateKey = cleanPrivateKey.replaceAll("-----.*?-----", "");
+
     PKCS8EncodedKeySpec keySpecPKCS8 = new PKCS8EncodedKeySpec(
-        Base64.getDecoder().decode(privateKeyContent),
+        Base64.getDecoder().decode(cleanPrivateKey),
         AlgorithmIdentifiers.RSA_USING_SHA512
     );
 
