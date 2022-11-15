@@ -1,5 +1,0 @@
-nameOverride: "cn-1"
-releaseOverride: "cn-2"
-application:
-  track:
-    "cn-3"
